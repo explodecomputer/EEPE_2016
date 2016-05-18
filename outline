@@ -1,0 +1,63 @@
+INTRO TO R
+
+- Why are there different programming languages
+- Intro to R command line
+- Reading data
+- Making plots
+
+
+BASIC STATS AND GENETICS
+
+- The concept of a statistical test
+- Linear regression
+- Using R to perform linear regression
+
+
+INTRO TO GENETIC DATA
+
+- SNP chip data and uncertainty
+- Using PLINK to get summary information
+- Using PLINK to clean the genetic data
+
+
+GWAS PRACTICAL
+
+- What is the objective of GWAS?
+- Using PLINK to calculate principal components
+- Using PLINK to perform GWAS
+- Visualising results
+
+
+QUANTITATIVE GENETIC THEORY
+
+- Quick section on logistic regression
+- Heritability
+- Twin studies
+- Mini practical (estimate h2 with twins)
+
+
+POLYGENIC APPROACHES
+
+- Below the GWAS threshold
+- Using SNPs to estimate genetic relationships
+- Estimating SNP heritability
+- Mini practical
+
+
+BIOINFORMATICS
+
+- Identifying the causal variant
+- Identifying the causal gene
+- Enrichment tests
+
+
+NEXT GEN SEQUENCING
+
+- Motivation to use sequencing
+- Sequencing methods
+- Study designs
+- Assessing quality
+
+
+EWAS PRACTICAL
+
