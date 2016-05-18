@@ -159,7 +159,7 @@ Population <- state.x77[ , 1]
 
 This portion of R code uses square brackets to extract data from the `state.x77` R object. Being a table (or matrix) the entries of `state.x77` are indexed by two indices that refer to the row and column. So `state.x77[2, 4]`` gives the entry in the second row and fourth column (the Alaskan life expectancy, 69.05 years). Also s`tate.x77[1:4, 1:4]`` gives the first four rows and columns of the table. Finally, `state.x77[ , 1]`` gives the first column (the population of all the states). Note that the first row displayed in the R console gives the column headings and the first column displayed in the R console gives the row headings. 
 
-Can you use this data to calculate the total Area of the US? The total population?
+Can you use this data to calculate the total area of the US? The total population?
 
 
 ## Plotting
@@ -176,3 +176,36 @@ There seems to be an inverse proportional relationship. We can visualise this:
 plot(Income ~ Illiteracy, state.x77)
 ```
 
+What is the distribution of Income?
+
+```
+hist(state.x77[, "Income"])
+```
+
+You can save a plot like this:
+
+```
+pdf("test.pdf")
+hist(state.x77[, "Income"])
+dev.off()
+```
+
+
+## Reading and writing data
+
+It is important to be able to get data into R, and back out again. Here we will look at two examples - Excel files, and Stata files.
+
+
+### Excel
+
+In Excel it is possible to save spreadsheet data as `.csv` files - "comma separated values". R can read `.csv` files using the `read.csv()` function. Have a look at the documentation:
+
+```
+?read.csv
+```
+
+Notice that there are a lot of options here to be as flexible as possible for reading in data that has been formatted in different ways. The default options for `read.csv` are usually suitable for reading in a file that has just been experted from Excel.
+
+Let's try reading in a csv file...
+
+```
