@@ -252,3 +252,81 @@ If there is a pair of individuals in the dataset who are related (e.g. cousins, 
 
 **NOTE THAT THIS MAY TAKE A LONG TIME TO RUN** To cancel it press `ctrl+c`.
 
+
+## Assessing population stratification
+
+High density SNP data can be used to cluster individuals based on genetic similarity using principle components analysis (PCA). This is a useful tool to check that all the individuals in your sample come from the same population. 
+
+Calculating PCs is sensitive to regions of high linkage disequilibrium. The correct way to calculate PCs in genetic data is to follow these steps:
+
+1. Tdentify a set of LD pruned SNPs
+2. Remove regions with high LD
+3. Calculate principal components using only these SNPs
+
+This can be done as follows (no need to run this - the PCs have already been created)
+
+```
+# pairwise LD pruning
+../../software/plink_mac --bfile data --indep-pairwise 10000 5 0.1 --out indep
+../../software/plink_mac --bfile data --extract indep.prune.in --make-bed --out indep
+
+# remove high ld regions
+awk -f ../../scripts/highldregionsb37.awk indep.bim > highldregions.txt
+../../software/plink_mac --bfile indep --exclude highldregions.txt --make-bed --out indep_ld
+
+# Do PCA
+../../software/plink_mac --bfile indep_ld --pca --out geno_qc
+```
+
+**NOTE THAT THIS MAY TAKE A LONG TIME TO RUN** To cancel it press `ctrl+c`.
+
+
+The principal components have already been precomputed and they are in the `covs.txt` covariates file. We have also calculated the principal components together with different samples from around the world (HapMap3 data). We will use R to look at these data.
+
+**Perform the following commands in the R Studio console**
+
+First load up the principal components data
+
+```
+load("popstrat.RData")
+```
+
+What does the data look like?
+
+```
+head(popstrat)
+```
+
+It contains IDs, PCs 1-10, and a population identifier. Which populations are present?
+
+```
+table(popstrat$population)
+```
+
+Our data is there, along with a number of other samples with the following population codes:
+
+> ASW - African ancestry in Southwest USA
+> CEU - Utah residents with Northern and Western European ancestry from the CEPH collection
+> CHB - Han Chinese in Beijing, China
+> CHD - Chinese in Metropolitan Denver, Colorado
+> GIH - Gujarati Indians in Houston, Texas
+> JPT - Japanese in Tokyo, Japan
+> LWK - Luhya in Webuye, Kenya
+> MXL - Mexican ancestry in Los Angeles, California
+> MKK - Maasai in Kinyawa, Kenya
+> TSI - Toscani in Italia
+> YRI - Yoruba in Ibadan, Nigeria
+
+We can try to identify clusters by eye by plotting the principal components against each other. We will use the `ggplot2` library to plot these data
+
+```
+install.packages("ggplot2")
+library(ggplot2)
+ggplot(popstrat, aes(x=PC1, y=PC2)) + geom_point(aes(colour=population))
+```
+
+A clear clustering can be seen based on population here. To get a better idea of whether or not there are outliers in our data we can re-plot with less confusing colouring:
+
+```
+ggplot(popstrat, aes(x=PC1, y=PC2)) + geom_point(aes(colour=population=="Our data", alpha=population=="Our data"))
+```
