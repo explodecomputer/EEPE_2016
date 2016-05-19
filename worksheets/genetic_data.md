@@ -6,11 +6,18 @@ This worksheet will take you through
 - Calculating some summary statistics
 - Performing quality control (QC) to clean the data
 
+## A note about PLINK
+
+This is a very versatile tool for data manipulation and analysis. PLINK version 2 is currently being developed (at the time of writing in beta version 1.9), and is markedly faster than the original plink. In this worksheet we will go through some basic commands, but for a full list of possible operations see the website:
+
+[https://www.cog-genomics.org/plink2/](https://www.cog-genomics.org/plink2/)
+
 ## Looking at the data
 
 Conceptually, genetic data is stored in matrix form - rows for individuals, columns for SNPs. In practice, this can take many different shapes, styles and conventions. In these practicals we will be using the most common type - PLINK format. More specifically, **binary** plink format. You can find information about it here:
 
 [http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#bed](http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml#bed)
+
 
 A binary plink dataset comprises three files:
 
@@ -240,7 +247,8 @@ In this case, a few SNPs were removed due to HWE and MAF.
 If there is a pair of individuals in the dataset who are related (e.g. cousins, siblings, duplicate samples etc) then we will want to discard one of the pair, so that the final dataset is comprised entirely of unrelated individuals. We will look at how this is done later on, but plink can do this as follows:
 
 ```
-../../software/plink_mac --bfile geno_qc --rel-cutoff 0.025 --make-bed --out geno
+../../software/plink_mac --bfile geno_qc --rel-cutoff 0.025 --out relateds
 ```
 
 **NOTE THAT THIS MAY TAKE A LONG TIME TO RUN** To cancel it press `ctrl+c`.
+
