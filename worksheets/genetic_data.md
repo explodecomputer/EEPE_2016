@@ -2,9 +2,9 @@
 
 This worksheet will take you through
 
-- Familiarising yourself with the genetic data format
-- Calculating some summary statistics
-- Performing quality control (QC) to clean the data
+1. Familiarising yourself with the genetic data format
+2. Calculating some summary statistics
+3. Performing quality control (QC) to clean the data
 
 ## A note about PLINK
 
@@ -255,7 +255,7 @@ If there is a pair of individuals in the dataset who are related (e.g. cousins, 
 
 ## Assessing population stratification
 
-High density SNP data can be used to cluster individuals based on genetic similarity using principle components analysis (PCA). This is a useful tool to check that all the individuals in your sample come from the same population. 
+High density SNP data can be used to cluster individuals based on genetic similarity using principal components analysis (PCA). This is a useful tool to check that all the individuals in your sample come from the same population. 
 
 Calculating PCs is sensitive to regions of high linkage disequilibrium. The correct way to calculate PCs in genetic data is to follow these steps:
 
