@@ -24,25 +24,25 @@ Open R on your computer. We will load the first three sets of data described abo
 
 First, set the working directory to the folder that `data/epigenetic` folder - this contains the data we'll be using
 
-```
+```{r setwd}
 setwd(".....")
 ```
 
 To open the methylation data and the cell counts data in R, type:
-```
+```{r load_methylation_data}
 load("betas.Rdata")
 load("cell.counts.Rdata")
 ```
 
 To open the file containing the phenotype data, type:
 
-```
+```{r read_trait_data}
 traits <- read.csv("traits.csv")
 ```
 
 To check what data is loaded in R, type:
 
-```
+```{r show_objects }
 ls()
 ```
 
@@ -54,13 +54,13 @@ This should return:
 
 We can explore these datasets using str() or dim() , for example:
 
-```
+```{r summarise_traits}
 str(traits)
 ```
 
 shows us that `traits` contains age, smoking, gender and batch information for 464 samples.
 
-```
+```{r dimension_of_betas}
 dim(betas)
 ```
 
@@ -68,40 +68,40 @@ shows us that the `betas` dataset has 45759 probes (rows) and 464 samples (colum
 
 What do the methylation values look like? e.g. the 34th CpG:
 
-```
+```{r histogram_of_betas_34}
 hist(betas[34,])
 ```
 
 and the 35th:
 
-```
-hist(betas[34,])
+```{r histogram_of_betas_35}
+hist(betas[35,])
 ```
 
 The values are bound between 0 and 1, and typically are not normally distributed.
 
 It is very important to check that the ORDER of our data is the same in each data frame / matrix. If we look at the top three samples for each dataset, we can see that they are not matched up:
 
-```
+```{r check_order_top}
 betas[1:3,1:3]
 traits[1:3,]
 ```
 
 We can also see this if we ask R to tell us whether the column names of `betas` are identical to the SampleID column of “traits”:
 
-```
+```{r check_order_all}
 identical(colnames(betas),traits$SampleID)
 ```
 
 This should return FALSE. Therefore, we need to match up the phenotype data with the methylation data. To do this, we can use the `match()` function to match the column names of `betas` to the SampleIDs in `traits`:
 
-```
+```{r reorder_ids}
 traits <- traits[match(colnames(betas),traits$SampleID),]
 ```
 
 We can check that this has happened successfully by using this line of code again:
 
-```
+```{r recheck_order_all}
 identical(as.character(colnames(betas)),as.character(traits$SampleID))
 ```
 
@@ -110,19 +110,19 @@ This time, this should return TRUE.
 
 Since cell counts are going to be included in our regression model as covariates in the same way as age and gender, we can make things easier by merging the cell counts and phenotype data using the `merge()` function.
 
-```
+```{r merge_traits_cellcounts}
 traits <- merge(traits, cell.counts, by.x="SampleID", by.y="row.names")
 ```
 
 You can find out the names of the variables in `traits` using:
 
-```
+```{r show_trait_names}
 names(traits)
 ```
 
 Smoking is coded as a dummy variable where 0=non-smoker and 1=smoker. Use the `table()` function to find out how many smokers there are.
 
-```
+```{r table_smoking}
 table(traits$smoking)
 ```
 
@@ -131,20 +131,20 @@ table(traits$smoking)
 
 Now that we have loaded and prepared our data, we can run a simple EWAS using the `cpg.assoc()` function in the CpGassoc package. Load the package using:
 
-```
+```{r load_cpgassoc}
 library(CpGassoc)
 ```
 
 `cpg.assoc()` performs linear regression on methylation at each CpG site on a trait of interest (independent variable). In this case, the trait of interest is smoking. We will call the results of this first EWAS “model1”:
 
-```
+```{r model1}
 model1 <- cpg.assoc(beta.val=betas, indep=as.numeric(traits$smoking))
 ```
 
 
 We can use `summary()` to find the number of sites that survived Bonferroni (Holm) correction for multiple testing.
 
-```
+```{r model1_summary}
 summary(model1)
 ```
 
@@ -162,24 +162,24 @@ There is lots of information stored in the object `model1` we created (see e.g. 
 
 We can extract coefficients and p values from our results using:
 
-```
+```{r model1_results}
 model1_results <- cbind(model1$results, model1$coefficients)
 ```
 
-```
+```{r model1_ci}
 model1_results$CI_lower <- model1_results$effect.size - (model1_results$std.error * 1.96)
 model1_results$CI_upper <- model1_results$effect.size + (model1_results$std.error * 1.96)
 ```
 
 Sort by p-value so that the “top-hits” are at the top of the data frame:
 
-```
+```{r model1_results_sort}
 model1_results <- model1_results[order(model1_results$P.value),]
 ```
 
 View the first few CpG sites using `head()`
 
-```
+```{r model1_results_head}
 head(model1_results)
 ```
 
@@ -188,27 +188,27 @@ head(model1_results)
 
 As suggested by the simple EWAS, smoking is a source of variation in the data:
 
-```
+```{r minfi_mds}
 library(minfi)
 mdsPlot(betas,sampGroups=as.factor(traits$smoking))
 ```
 
 But this could be confounded by other factors, for example, batch:
 
-```
+```{r mds_batch}
 mdsPlot(betas, sampNames=as.factor(traits$batch), sampGroups=as.factor(traits$batch))
 ```
 
 There are several ways to control for batch (discussed in the lecture), but one option is to include the batch variable (e.g. the chip the sample was run on) as a covariate in your EWAS model. Batch is specified in cpg.assoc as `chip.id`:
 
-```
+```{r model2}
 model2 <- cpg.assoc(beta.val=betas, indep=as.numeric(traits$smoking), chip.id=as.factor(traits$batch))
 summary(model2)
 ```
 
 Methylation levels may also be influenced by other variables such as age and gender. These variables are also associated with smoking status, so they should be included in the EWAS model to adjust for confounding. A dataframe of covariates can be specified in cpg.assoc using `covariates`:
 
-```
+```{r model3}
 model3 <- cpg.assoc(beta.val=betas, indep=as.numeric(traits$smoking),chip.id=as.factor(traits$batch),covariates=traits[,c("age", "gender")])
 summary(model3)
 ```
@@ -217,14 +217,14 @@ As discussed in the lecture, a significant source of variation in methylation da
 
 Add all six cell proportions to your model as covariates (as well as age and sex). Call this new model `model4`.
 
-```
+```{r model4}
 model4 <- cpg.assoc(beta.val=betas, indep=as.numeric(traits$smoking),chip.id=as.factor(traits$batch),covariates=traits[,c("age", "gender", "CD8T", "CD4T", "NK", "Bcell", "Mono", "Gran")])
 summary(model4)
 ```
 
 Create a Manhattan plot of the results
 
-```
+```{r manhattan}
 load("annotation.RData")
 manhattan(model1, chr=annotation$CHR, cpgname=annotation$TargetID, pos=annotation$COORDINATE_37)
 ```

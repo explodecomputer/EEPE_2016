@@ -11,7 +11,7 @@ $$
 
 In R it can be calculated like this:
 
-```
+```{r lottery_manual}
 49 * 48 * 47 * 46 * 45 * 44 / (6 * 5 * 4 * 3 * 2 * 1)
 ```
 
@@ -19,25 +19,25 @@ In R it can be calculated like this:
 
 Or we can use built in functions:
 
-```
+```{r lottery_factorial}
 factorial(49) / (factorial(6) * factorial(49-6))
 ```
 
 We can find out about the `factorial` function like this:
 
-```
+```{r help_factorial}
 ?factorial
 ```
 
 We want to store the result from our calculation. This is done like so:
 
-```
+```{r lottery_calculation}
 lottery <- factorial(49) / (factorial(6) * factorial(49-6))
 ```
 
 What happens now if you type 
 
-```
+```{r lottery}
 lottery
 ```
 
@@ -45,37 +45,37 @@ This retrieves the stored value.
 
 What is the probability of winning the lottery if you buy 1 ticket?
 
-```
+```{r prob_1_ticket}
 1 / lottery
 ```
 
 How about 10 tickets?
 
-```
+```{r prob_10_ticket}
 10 / lottery
 ```
 
 What is the chance of winning the lottery twice?
 
-```
+```{r prob_1_ticket_twice}
 (1 / lottery)^2
 ```
 
 In R we can make vectors of numbers instead of dealing in single elements. For example
 
-```
+```{r make_n}
 n <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 ```
 
 Here the `c()` command tells R to string the numbers 1 to 10 into an array. Another way to do this is:
 
-```
+```{r make_n_simple}
 n <- 1:10
 ```
 
 Now we can calculate the chances of winning for 1, 2, 3, ..., 10 tickets in one command:
 
-```
+```{r prob_n_ticket}
 n / lottery
 ```
 
@@ -209,3 +209,39 @@ Notice that there are a lot of options here to be as flexible as possible for re
 Let's try reading in a csv file...
 
 ```
+phen <- read.csv("../data/example_data/phen.csv")
+```
+
+What does this data look like?
+
+```
+head(phen)
+```
+
+What are the dimensions?
+
+```
+dim(phen)
+```
+
+
+### Stata
+
+We can also read in files that are in Stata format. But first we need to install a library that will provide the necessary functions.
+
+```
+install.packages("readstata13")
+```
+
+Once the library is installed we can load it
+
+```
+library(readstata13)
+```
+
+And now we can use the functions that are provided by this package. Let's read in a Stata file:
+
+```
+phen <- read.dta13("../data/example_data/phen.dta")
+```
+
