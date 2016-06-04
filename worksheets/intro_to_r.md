@@ -245,3 +245,141 @@ And now we can use the functions that are provided by this package. Let's read i
 phen <- read.dta13("../data/example_data/phen.dta")
 ```
 
+
+## Monty Hall problem
+
+Suppose you're on a game show, and you're given the choice of three doors: Behind one door is a car; behind the others, goats. You pick a door, say No. 1, and the host, who knows what's behind the doors, opens another door, say No. 3, which has a goat. He then says to you, "Do you want to pick door No. 2?" Is it to your advantage to switch your choice?
+
+Let's simulate this scenario to check!
+
+We will make a function which simulates one game:
+
+```
+monty <- function(strategy)
+{
+    doors <- 1:3 # initialize the doors behind one of which is a good prize
+    win <- 0 # to keep track of number of wins
+ 
+    prize <- sample(1:3, 1) # randomize which door has the good prize
+    guess <- sample(1:3, 1) # guess a door at random
+ 
+    ## Reveal one of the doors you didn't pick which has a goat
+    if(prize != guess) {
+        reveal <- doors[-c(prize,guess)]
+    } else {
+        reveal <- sample(doors[-c(prize,guess)], 1)
+    }
+ 
+    ## Stay with your initial guess or switch
+    if(strategy == 'switch'){
+        new_guess <- doors[-c(reveal,guess)]
+    } else if(strategy == 'stay'){
+        new_guess <- guess        
+    } else {
+        stop("Must choose to stay or switch!")
+    }
+
+    ## Did you win?
+    win <- new_guess == prize
+
+    ## return results
+    result <- data.frame(
+        prize = prize,
+        guess = guess,
+        strategy = strategy,
+        new_guess = new_guess,
+        win = win
+    )
+    return(result)
+}
+```
+
+Here's how it works:
+
+```
+monty("stay")
+```
+
+```
+  prize guess strategy new_guess  win
+1     2     2     stay         2 TRUE
+```
+
+or
+
+```
+monty("switch")
+```
+
+```
+  prize guess strategy new_guess   win
+1     2     2   switch         1 FALSE
+```
+
+Let's see what happens if we do this multiple times...
+
+```
+n_simulations <- 1000
+stay_results <- list()
+for(i in 1:n_simulations)
+{
+    message(i)
+    stay_results[[i]] <- monty("stay")
+}
+stay_results <- do.call(rbind, stay_results)
+stay_results$simulation <- 1:n_simulations
+
+switch_results <- list()
+for(i in 1:n_simulations)
+{
+    message(i)
+    switch_results[[i]] <- monty("switch")
+}
+switch_results <- do.call(rbind, switch_results)
+switch_results$simulation <- 1:n_simulations
+
+all_results <- rbind(stay_results, switch_results)
+```
+
+Let's see what the results look like! We want to know the proportion of wins for the 'stay' strategy, and the proportion of wins for the 'switch' strategy
+
+```
+tapply(all_results$win, all_results$strategy, function(x) sum(x) / length(x))
+```
+
+Perhaps this was just chance? Let's plot what it looks like. We will need to install a new library, `ggplot2`. This library is fantastic for making fairly complex plots very quickly.
+
+```
+install.packages("ggplot2")
+library(ggplot2)
+```
+
+Here's the plot
+
+```
+# Get the cumulative sum of wins
+all_results$cumulative <- NA
+all_results$cumulative[all_results$strategy == "stay"] <- cumsum(all_results$win[all_results$strategy == "stay"])
+all_results$cumulative[all_results$strategy == "switch"] <- cumsum(all_results$win[all_results$strategy == "switch"])
+
+# Make the plot
+ggplot(all_results, aes(x=simulation, y=cumulative)) +
+geom_line(aes(colour=strategy))
+```
+
+Run the simulations again, but this time do 1000 simulations instead of just 10. Now what is the result?
+
+
+## Packages
+
+We have already installed two packages. For the remainder of the course we are going to need some more. There are three main sources to get packages
+
+- **CRAN** This is the main R package repository. It has over 8000 packages for a huge variaty of things. [https://cran.r-project.org](https://cran.r-project.org)
+- **Bioconductor**  This is another repository which has packages that are mostly focused on genomic data. [http://bioconductor.org](http://bioconductor.org)
+- **GitHub** A lot of people publish packages, or updates to packages, on GitHub before they are released to the CRAN or Bioconductor.
+
+We need to install the following packages from CRAN:
+
+
+
+And the following packages from Bioconductor:
