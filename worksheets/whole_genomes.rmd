@@ -2,7 +2,8 @@
 title: "Whole genomes practical"
 author: Gibran Hemani
 output: 
-  pdf_document:
+  html_document:
+    theme: united
     highlight: tango
 ---
 
@@ -47,14 +48,21 @@ The result is a genetic relationship matrix (GRM, aka kinship matrix) of size *n
 
 To do this using plink with the complete data, and creating the new GRM format, run the following command:
 
-```
-../../software/plink_mac --bfile ../../data/genetic/geno_qc --make-grm-bin --out ../../data/kinships/geno_qc
+```bash
+../../software/plink_mac \
+--bfile ../../data/genetic/geno_qc \
+--make-grm-bin \
+--out ../../data/kinships/geno_qc
 ```
 
 To create the old format, and using only the first 4000 individuals, do:
 
-```
-../../software/plink_mac --bfile ../../data/genetic/geno_qc --make-grm-gz --out ../../data/kinships/geno_qc_4000 --keep ../../data/kinships/first4000.txt
+```bash
+../../software/plink_mac \
+--bfile ../../data/genetic/geno_qc \
+--make-grm-gz \
+--out ../../data/kinships/geno_qc_4000 \
+--keep ../../data/kinships/first4000.txt
 ```
 
 Relevant flags:
@@ -83,8 +91,13 @@ When genetic similarity is calculated by using SNPs then we are no longer estima
 To calculate the SNP heritability of BMI we will use the genetic relationship matrix and the phenotype data. Let's do this both with and without covariates.
 
 
-```
-../../software/gcta_mac --grm ../../data/kinships/precomputed/geno_qc_4000 --pheno ../../data/genetic/phen.txt --mpheno 1 --reml --reml-no-lrt --out univariate_bmi_nocovar
+```bash
+../../software/gcta_mac \
+--grm ../../data/kinships/precomputed/geno_qc_4000 \
+--pheno ../../data/genetic/phen.txt \
+--mpheno 1 \
+--reml --reml-no-lrt \
+--out univariate_bmi_nocovar
 ```
 
 **Note that this may take a really long time. Press `ctrl+c` to cancel, the results are precomputed in the `precomputed/` folder**
@@ -110,8 +123,14 @@ n       8227
 
 This says the SNP heritability is 0.93 with a fairly low standard error. What happens if we recalculate but this time fitting the covariates?
 
-```
-../../software/gcta_mac --grm ../../data/kinships/precomputed/geno_qc_4000 --pheno ../../data/genetic/phen.txt --mpheno 1 --reml --reml-no-lrt --out univariate_bmi_covar --qcovar ../../data/genetic/covs.txt
+```bash
+../../software/gcta_mac \
+--grm ../../data/kinships/precomputed/geno_qc_4000 \
+--pheno ../../data/genetic/phen.txt \
+--mpheno 1 \
+--reml --reml-no-lrt \
+--out univariate_bmi_covar \
+--qcovar ../../data/genetic/covs.txt
 ```
 
 **Note that this may take a really long time. Press `ctrl+c` to cancel, the results are precomputed in the `precomputed/` folder**
@@ -139,8 +158,13 @@ We can estimate the genetic correlation between two traits. This represents the 
 In GCTA, if we want to estimate the genetic correlation between BMI and CRP we would use the following command:
 
 
-```
-../../software/gcta_mac --grm ../../data/kinships/precomputed/geno_qc_4000 --pheno ../../data/genetic/phen.txt --reml-bivar 1 2 --out bivariate_bmi_crp --qcovar ../../data/genetic/covs.txt
+```bash
+../../software/gcta_mac \
+--grm ../../data/kinships/precomputed/geno_qc_4000 \
+--pheno ../../data/genetic/phen.txt \
+--reml-bivar 1 2 \
+--out bivariate_bmi_crp \
+--qcovar ../../data/genetic/covs.txt
 ```
 
 **Note that this may take a really long time. Press `ctrl+c` to cancel, the results are precomputed in the `precomputed/` folder**

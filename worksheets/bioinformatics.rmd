@@ -2,7 +2,8 @@
 title: "Intro to bioinformatics"
 author: Gibran Hemani
 output: 
-  pdf_document:
+  html_document:
+    theme: united
     highlight: tango
 ---
 
@@ -22,13 +23,13 @@ The basic idea is that if a SNP is in LD with the top SNP in the region then we 
 
 We can use plink to perform LD clumping. Let's navigate to the folder that contains our GWAS results
 
-```
+```bash
 cd results/gwas
 ```
 
 Performing clumping on the BMI GWAS
 
-```
+```bash
 ../../software/plink_mac \
 --bfile ../../data/genetic/geno_qc \
 --clump precomputed/bmi_adjusted.assoc.linear.add.gz \
