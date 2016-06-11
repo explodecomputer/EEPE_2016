@@ -1,0 +1,6 @@
+- [intro_to_r](intro_to_r.html)
+- [genetic_data](genetic_data.html)
+- [gwas](gwas.html)
+- [bioinformatics](bioinformatics.html)
+- [whole_genomes](whole_genomes.html)
+- [ewas](ewas.html)
