@@ -383,3 +383,4 @@ bmi_adj[which.min(bmi_adj$P),]
 #     - Which gene is closest to this SNP?	
 	
 # 2. Repeat question 1, but for the hypertension GWAS.	
+	

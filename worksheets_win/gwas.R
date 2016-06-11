@@ -2,7 +2,8 @@
 # title: "Genome wide association studies"	
 # author: Gibran Hemani	
 # output: 	
-#   pdf_document:	
+#   html_document:	
+#     theme: united	
 #     highlight: tango	
 # ---	
 	
@@ -382,3 +383,4 @@ bmi_adj[which.min(bmi_adj$P),]
 #     - Which gene is closest to this SNP?	
 	
 # 2. Repeat question 1, but for the hypertension GWAS.	
+	
