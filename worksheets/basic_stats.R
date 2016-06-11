@@ -241,8 +241,7 @@ se1 <- sd(phen$BMI[phen$HT == 1], na.rm=TRUE) / sqrt(sum(phen$HT == 1 & !is.na(p
 # Do the same for individuals who do have HT
 # Write the code here
 
-m2 <- mean(phen$BMI[phen$HT == 2], na.rm=TRUE)
-se2 <- sd(phen$BMI[phen$HT == 2], na.rm=TRUE) / sqrt(sum(phen$HT == 2 & !is.na(phen$BMI)))
+
 
 
 # A T test can be conducted with this information

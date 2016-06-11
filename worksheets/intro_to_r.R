@@ -2,7 +2,8 @@
 # title: "Intro to R"	
 # author: Gibran Hemani	
 # output: 	
-#   pdf_document:	
+#   html_document:	
+#     theme: united	
 #     highlight: tango	
 # ---	
 	
@@ -169,7 +170,11 @@ Population <- state.x77[ , 1]
 	
 # This portion of R code uses square brackets to extract data from the `state.x77` R object. Being a table (or matrix) the entries of `state.x77` are indexed by two indices that refer to the row and column. So `state.x77[2, 4]` gives the entry in the second row and fourth column (the Alaskan life expectancy, 69.05 years). Also s`tate.x77[1:4, 1:4]` gives the first four rows and columns of the table. Finally, `state.x77[ , 1]` gives the first column (the population of all the states). Note that the first row displayed in the R console gives the column headings and the first column displayed in the R console gives the row headings. 	
 	
-# Can you use this data to calculate the total area of the US? The total population?	
+# Can you use this data to calculate:	
+	
+# 1. The total area of the US?	
+# 2. The total population US?	
+# 3. The average illiteracy US?	
 	
 	
 # ## Plotting	
@@ -219,7 +224,7 @@ dev.off()
 # Let's try reading in a csv file...	
 	
 	
-phen <- read.csv("../data/example_data/phen.csv")	
+phen <- read.csv("../data/example_data/phen.csv", stringsAsFactors=FALSE)	
 	
 	
 # What does this data look like?	
@@ -233,6 +238,45 @@ head(phen)
 	
 dim(phen)	
 	
+	
+# Note, the `phen` object and the `state.x77` object are actually different **data types**. Look:	
+	
+	
+	
+class(phen)	
+	
+	
+	
+class(state.x77)	
+	
+	
+# The difference between a **data.frame** and a **matrix** is that in a matrix every element must be the same type of data. In the examlpe of `state.x77`, every element is a numeric value. A **data.frame** on the other hand allows each column to be a different type of data. You can access a particular column using the `$` operator like this:	
+	
+	
+class(phen$IID)	
+	
+	
+	
+class(phen$BMI)	
+	
+	
+# Let's calculate the mean value of DBP (diastolic blood pressure):	
+	
+	
+mean(phen$DBP)	
+mean(phen[,"DBP"])	
+mean(phen[,4])	
+mean(phen[["DBP"]])	
+mean(phen[[4]])	
+	
+	
+# All the above are different ways of accessing the same thing - data frames are quite methods of storing data.	
+	
+	
+# Can you use this data to:	
+	
+# 1. Draw a histogram of BMI values?	
+# 2. Plot the relationship between DBP and SBP?	
 	
 	
 # ### Stata	
@@ -298,6 +342,12 @@ monty <- function()
 }	
 	
 	
+# This function requires drawing random numbers (using the `sample` function). To make the results reproducible we should set the "random seed". This means that each time you run the result you will get the same answer.	
+	
+	
+set.seed(12345)	
+	
+	
 # Here's how it works:	
 	
 	
@@ -353,10 +403,13 @@ all_results$cumulative[switch_index] <- 1:sum(switch_index)
 ggplot(all_results, aes(x=simulation, y=cumulative)) +	
 geom_point(aes(colour=win)) +	
 geom_line(aes(colour=win)) +	
-labs(y="Cumulative sum of successes", x="Number of simulations")	
+labs(y="Cumulative sum of successes", x="Simulations number")	
 	
 	
-# Run the simulations again, but this time do 1000 simulations instead of just 10. Now what is the result?	
+# We need more simulations to be sure about this.	
+	
+# 1. Run the simulations again, but this time do 1000 simulations instead of just 10.	
+# 2. If you were playing the game, would you stick with your initial choise or switch?	
 	
 	
 # ## Packages	
