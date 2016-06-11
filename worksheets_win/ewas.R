@@ -2,7 +2,8 @@
 # title: Performing an EWAS"	
 # author: Gibran Hemani	
 # output: 	
-#   pdf_document:	
+#   html_document:	
+#     theme: united	
 #     highlight: tango	
 # ---	
 	

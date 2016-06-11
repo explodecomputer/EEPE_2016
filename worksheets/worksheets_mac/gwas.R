@@ -2,7 +2,8 @@
 # title: "Genome wide association studies"	
 # author: Gibran Hemani	
 # output: 	
-#   pdf_document:	
+#   html_document:	
+#     theme: united	
 #     highlight: tango	
 # ---	
 	
@@ -14,11 +15,11 @@
 # 4. The consequences of population stratification	
 # 5. Finding out about our GWAS hits	
 	
-# We'll be using plink software, and also the genotype data that you cleaned in the "Genetic data" practical (`../../data/genetic/geno_qc`).	
+# We'll be using plink software, and also the genotype data that you cleaned in the "Genetic data" practical (`data/genetic/geno_qc`).	
 	
 # We'll be storing results in the `results/gwas` folder. Navigate there:	
 	
-# ```	
+# ```bash	
 # cd results/gwas	
 # ```	
 	
@@ -32,7 +33,7 @@
 # - CRP (C reactive protein)	
 # - HT (hypertension)	
 	
-# ```	
+# ```bash	
 # head ../../data/genetic/phen.txt	
 # ```	
 	
@@ -48,7 +49,7 @@
 	
 # And we have a list of SNPs that are in our data, e.g.	
 	
-# ```	
+# ```bash	
 # head ../../data/genetic/geno_qc.bim	
 # ```	
 	
@@ -97,7 +98,7 @@
 	
 # Our question is whether there is an association between the genotype values and the trait (BMI) values for this SNP. We can calculate the association for this SNP using plink:	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile ../../data/genetic/geno_qc \	
 # --pheno ../../data/genetic/phen.txt \	
@@ -138,7 +139,7 @@
 	
 # We have seen what is happening in an association test between a SNP and a trait. We can just as easily perform this same operation for every SNP against the same trait. In plink it is simply done like this:	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile ../../data/genetic/geno_qc \	
 # --pheno ../../data/genetic/phen.txt \	
@@ -262,13 +263,13 @@ dev.off()
 	
 # So far our GWAS did not include covariates. We have a covariates file, located here (run this in the Terminal, not in R):	
 	
-# ```	
+# ```bash	
 # less ../../data/genetic/covs.txt	
 # ```	
 	
 # It contains principal components 1-10, sex, age and smoking status. To perform linear regression of SNP against BMI, adjusting for these covariates, we can use the following plink command:	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile ../../data/genetic/geno_qc \	
 # --pheno ../../data/genetic/phen.txt \	
@@ -313,7 +314,7 @@ dev.off()
 	
 # (only the relevant columns shown here). We should perform the GWAS again, making sure to adjust for PCs and covariates. The code to do this is similar to above but without the `--snp` flag,	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile ../../data/genetic/geno_qc \	
 # --pheno ../../data/genetic/phen.txt \	
@@ -355,6 +356,12 @@ dev.off()
 	
 # ### Finding out about our GWAS hits	
 	
+# How many SNPs are below the threshold of `5e-8`?	
+	
+	
+table(bmi_adj$P < 5e-8)	
+	
+	
 # Which is our top SNP in this GWAS? In R:	
 	
 	
@@ -366,3 +373,13 @@ bmi_adj[which.min(bmi_adj$P),]
 # [http://genome.ucsc.edu/cgi-bin/hgGateway](http://genome.ucsc.edu/cgi-bin/hgGateway)	
 	
 # Put an rs ID into the search. When the result comes up, try zooming out a few times. Which is the closest gene? Click on the gene and find out more information about it.	
+	
+	
+# ## Questions	
+	
+# 1. Load the CRP GWAS results into R.	
+#     - How many SNPs are "significant" for the CRP GWAS?	
+#     - Which SNP has the smallest p-value?	
+#     - Which gene is closest to this SNP?	
+	
+# 2. Repeat question 1, but for the hypertension GWAS.	

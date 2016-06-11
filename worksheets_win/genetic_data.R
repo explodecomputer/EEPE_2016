@@ -41,19 +41,19 @@ options(width=85)
 # Navigate to the `data/genetic` directory 	
 	
 # ```bash	
-# cd ../data/genetic	
+# cd ..\data\genetic	
 # ```	
 	
 # Look at the files there	
 	
 # ```bash	
-# ls -lh	
+# dir	
 # ```	
 	
 # Look at the `geno_unclean.fam` file	
 	
 # ```bash	
-# less geno_unclean.fam	
+# more geno_unclean.fam	
 # ```	
 	
 # ```	
@@ -79,6 +79,8 @@ options(width=85)
 	
 # The number of lines represents the number of individuals in the data	
 	
+# In Linux or Mac we can use the `wc` command to count lines	
+	
 # ```bash	
 # wc -l geno_unclean.fam	
 # ```	
@@ -87,7 +89,7 @@ options(width=85)
 # Look at the `geno_unclean.bim` file	
 	
 # ```bash	
-# less geno_unclean.bim	
+# more geno_unclean.bim	
 # ```	
 	
 # ```	
@@ -118,7 +120,7 @@ options(width=85)
 # wc -l geno_unclean.bim	
 # ```	
 	
-# How many chromosomes are there? How many SNPs are on each chromosome?	
+# How many chromosomes are there? How many SNPs are on each chromosome? In Linux or Mac we can use the following command:	
 	
 # ```bash	
 # cut -f 1 geno_unclean.bim | uniq -c	
@@ -128,16 +130,16 @@ options(width=85)
 # The `geno_unclean.bed` file is much larger - it contains the compressed matrix of genotypes for each individual at each SNP. It is not human readable, but you can look at a small section by extracting it to a human readable format using plink:	
 	
 # ```bash	
-# ../../software/plink_mac \	
-# --bfile geno_unclean \	
-# --chr 22 \	
-# --recode \	
-# --out geno_unclean_chr22	
+# ..\..\software\plink_win.exe^	
+#  --bfile geno_unclean^	
+#  --chr 22^	
+#  --recode^	
+#  --out geno_unclean_chr22	
 # ```	
 	
 # Let's take a look at this command.	
 	
-# - `../../software/plink_mac` is calling the plink software	
+# - `..\..\software\plink_win.exe` is calling the plink software	
 # - `--bfile geno_unclean` is saying there is a binary plink file with this prefix (no need to put bed/bim/fam - it will look for those automatically)	
 # - `--chr 22` is saying only keep SNPs on chromosome 22 (just doing this for speed here)	
 # - `--recode` is saying recode the data to a human readable format (known as ped format)	
@@ -146,7 +148,7 @@ options(width=85)
 # Now have a look at the created files	
 	
 # ```bash	
-# less -S geno_unclean_chr22.ped	
+# more geno_unclean_chr22.ped	
 # ```	
 	
 # ```	
@@ -169,16 +171,16 @@ options(width=85)
 # The easiest way to calculate the allele frequency of each SNP is to use plink	
 	
 # ```bash	
-# ../../software/plink_mac \	
-# --bfile geno_unclean \	
-# --freq \	
-# --out geno_unclean	
+# ..\..\software\plink_win.exe^	
+#  --bfile geno_unclean^	
+#  --freq^	
+#  --out geno_unclean	
 # ```	
 	
 # This produces a file called `geno_unclean.frq`	
 	
 # ```bash	
-# less geno_unclean.frq	
+# more geno_unclean.frq	
 # ```	
 	
 # ```	
@@ -243,14 +245,14 @@ table(frq$MAF < 0.01)
 # We can do all of this in plink like so:	
 	
 # ```bash	
-# ../../software/plink_mac \	
-# --bfile geno_unclean \	
-# --maf 0.01 \	
-# --hwe 1e-6 \	
-# --mind 0.05 \	
-# --geno 0.05 \	
-# --make-bed \	
-# --out geno_qc	
+# ..\..\software\plink_win.exe^	
+#  --bfile geno_unclean^	
+#  --maf 0.01^	
+#  --hwe 1e-6^	
+#  --mind 0.05^	
+#  --geno 0.05^	
+#  --make-bed^	
+#  --out geno_qc	
 # ```	
 	
 # A note on these parameters:	
@@ -264,7 +266,7 @@ table(frq$MAF < 0.01)
 # Note that the log from plink records what has been done:	
 	
 # ```bash	
-# less geno_qc.log	
+# more geno_qc.log	
 # ```	
 	
 # In this case, a few SNPs were removed due to HWE and MAF.	
@@ -275,10 +277,10 @@ table(frq$MAF < 0.01)
 # If there is a pair of individuals in the dataset who are related (e.g. cousins, siblings, duplicate samples etc) then we will want to discard one of the pair, so that the final dataset is comprised entirely of unrelated individuals. We will look at how this is done later on, but plink can do this as follows:	
 	
 # ```bash	
-# ../../software/plink_mac \	
-# --bfile geno_qc \	
-# --rel-cutoff 0.025 \	
-# --out relateds	
+# ..\..\software\plink_win.exe^	
+#  --bfile geno_qc^	
+#  --rel-cutoff 0.025^	
+#  --out relateds	
 # ```	
 	
 # **NOTE THAT THIS MAY TAKE A LONG TIME TO RUN** To cancel it press `ctrl+c`.	
@@ -294,16 +296,16 @@ table(frq$MAF < 0.01)
 # 2. Remove regions with high LD	
 # 3. Calculate principal components using only these SNPs	
 	
-# This can be done as follows (no need to run this - the PCs have already been created)	
+# This can be done in Linux or Mac as follows (no need to run this - the PCs have already been created)	
 	
 # ```bash	
 # # pairwise LD pruning	
-# ../../software/plink_mac \	
+# ..\..\software\plink_win.exe \	
 # --bfile data \	
 # --indep-pairwise 10000 5 0.1 \	
 # --out indep	
 	
-# ../../software/plink_mac \	
+# ..\..\software\plink_win.exe \	
 # --bfile data \	
 # --extract indep.prune.in \	
 # --make-bed \	
@@ -312,14 +314,14 @@ table(frq$MAF < 0.01)
 # # remove high ld regions	
 # awk -f ../../scripts/highldregionsb37.awk indep.bim > highldregions.txt	
 	
-# ../../software/plink_mac \	
+# ..\..\software\plink_win.exe \	
 # --bfile indep \	
 # --exclude highldregions.txt \	
 # --make-bed \	
 # --out indep_ld	
 	
 # # Do PCA	
-# ../../software/plink_mac \	
+# ..\..\software\plink_win.exe \	
 # --bfile indep_ld \	
 # --pca --out geno_qc	
 # ```	
@@ -351,17 +353,19 @@ table(popstrat$population)
 	
 # Our data is there, along with a number of other samples with the following population codes:	
 	
-# > ASW - African ancestry in Southwest USA	
-# > CEU - Utah residents with Northern and Western European ancestry from the CEPH collection	
-# > CHB - Han Chinese in Beijing, China	
-# > CHD - Chinese in Metropolitan Denver, Colorado	
-# > GIH - Gujarati Indians in Houston, Texas	
-# > JPT - Japanese in Tokyo, Japan	
-# > LWK - Luhya in Webuye, Kenya	
-# > MXL - Mexican ancestry in Los Angeles, California	
-# > MKK - Maasai in Kinyawa, Kenya	
-# > TSI - Toscani in Italia	
-# > YRI - Yoruba in Ibadan, Nigeria	
+# ```	
+# ASW - African ancestry in Southwest USA	
+# CEU - Utah residents with Northern and Western European ancestry from the CEPH collection	
+# CHB - Han Chinese in Beijing, China	
+# CHD - Chinese in Metropolitan Denver, Colorado	
+# GIH - Gujarati Indians in Houston, Texas	
+# JPT - Japanese in Tokyo, Japan	
+# LWK - Luhya in Webuye, Kenya	
+# MXL - Mexican ancestry in Los Angeles, California	
+# MKK - Maasai in Kinyawa, Kenya	
+# TSI - Toscani in Italia	
+# YRI - Yoruba in Ibadan, Nigeria	
+# ```	
 	
 # We can try to identify clusters by eye by plotting the principal components against each other. We will use the `ggplot2` library to plot these data	
 	
