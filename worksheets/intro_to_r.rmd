@@ -2,7 +2,8 @@
 title: "Intro to R"
 author: Gibran Hemani
 output: 
-  pdf_document:
+  html_document:
+    theme: united
     highlight: tango
 ---
 

@@ -86,9 +86,9 @@ img {
 <li>The consequences of population stratification</li>
 <li>Finding out about our GWAS hits</li>
 </ol>
-<p>We’ll be using plink software, and also the genotype data that you cleaned in the “Genetic data” practical (<code>../../data/genetic/geno_qc</code>).</p>
+<p>We’ll be using plink software, and also the genotype data that you cleaned in the “Genetic data” practical (<code>data/genetic/geno_qc</code>).</p>
 <p>We’ll be storing results in the <code>results/gwas</code> folder. Navigate there:</p>
-<pre><code>cd results/gwas</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> results/gwas</code></pre>
 <div id="performing-an-association-test-for-a-single-snp" class="section level2">
 <h2>Performing an association test for a single SNP</h2>
 <p>In the phenotype file (<code>../../data/genetic/phen.txt</code>) we have phenotypic information for</p>
@@ -99,7 +99,7 @@ img {
 <li>CRP (C reactive protein)</li>
 <li>HT (hypertension)</li>
 </ul>
-<pre><code>head ../../data/genetic/phen.txt</code></pre>
+<pre class="sh"><code>head ../../data/genetic/phen.txt</code></pre>
 <pre><code>FID IID BMI DBP SBP CRP HT
 id1 id1 31.8664742886873 87.2331807479429 152.290193244483 1.44468000003555 2
 id2 id2 35.4253325607032 86.059532896277 143.082692573686 3.75456412209453 2
@@ -108,7 +108,7 @@ id4 id4 34.7971502072983 102.912235367749 198.501027761789 4.93651456826931 2
 id5 id5 26.9278590031599 77.8172291593599 151.038730334376 3.38852808547912 2
 ...</code></pre>
 <p>And we have a list of SNPs that are in our data, e.g.</p>
-<pre><code>head ../../data/genetic/geno_qc.bim</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">head</span> ../../data/genetic/geno_qc.bim</code></pre>
 <pre><code>1   rs12562034  0   768448  A   G
 1   rs9442372   0   1018704 A   G
 1   rs3737728   0   1021415 A   G
@@ -307,12 +307,26 @@ PC10     8237      2.282       0.4662       0.6411
 </div>
 <div id="finding-out-about-our-gwas-hits" class="section level3">
 <h3>Finding out about our GWAS hits</h3>
+<p>How many SNPs are below the threshold of <code>5e-8</code>?</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(bmi_adj$P &lt;<span class="st"> </span><span class="fl">5e-8</span>)</code></pre>
 <p>Which is our top SNP in this GWAS? In R:</p>
 <pre class="sourceCode r"><code class="sourceCode r">bmi_adj[<span class="kw">which.min</span>(bmi_adj$P),]</code></pre>
 <p>We can use online tools to find out about any particular SNP. There are many to choose from, which we will cover later on, but for now let’s just use the UCSC Genome Browser</p>
 <p><a href="http://genome.ucsc.edu/cgi-bin/hgGateway"><a href="http://genome.ucsc.edu/cgi-bin/hgGateway" class="uri">http://genome.ucsc.edu/cgi-bin/hgGateway</a></a></p>
 <p>Put an rs ID into the search. When the result comes up, try zooming out a few times. Which is the closest gene? Click on the gene and find out more information about it.</p>
 </div>
+</div>
+<div id="questions" class="section level2">
+<h2>Questions</h2>
+<ol style="list-style-type: decimal">
+<li>Load the CRP GWAS results into R.
+<ul>
+<li>How many SNPs are “significant” for the CRP GWAS?</li>
+<li>Which SNP has the smallest p-value?</li>
+<li>Which gene is closest to this SNP?</li>
+</ul></li>
+<li>Repeat question 1, but for the hypertension GWAS.</li>
+</ol>
 </div>
 
 

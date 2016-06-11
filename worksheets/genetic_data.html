@@ -100,7 +100,7 @@ img {
 <li>The <code>data.bed</code> file - this is the matrix of genotypes for all SNPs and individuals. Note that this is not human readable.</li>
 </ol>
 <p>Navigate to the <code>data/genetic</code> directory</p>
-<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> data/genetic</code></pre>
+<pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">cd</span> ../data/genetic</code></pre>
 <p>Look at the files there</p>
 <pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ls</span> -lh</code></pre>
 <p>Look at the <code>geno_unclean.fam</code> file</p>
@@ -294,9 +294,17 @@ id9 id9 0 0 1 -9 T T C A A C C C C C G G</code></pre>
 <p>It contains IDs, PCs 1-10, and a population identifier. Which populations are present?</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(popstrat$population)</code></pre>
 <p>Our data is there, along with a number of other samples with the following population codes:</p>
-<blockquote>
-<p>ASW - African ancestry in Southwest USA CEU - Utah residents with Northern and Western European ancestry from the CEPH collection CHB - Han Chinese in Beijing, China CHD - Chinese in Metropolitan Denver, Colorado GIH - Gujarati Indians in Houston, Texas JPT - Japanese in Tokyo, Japan LWK - Luhya in Webuye, Kenya MXL - Mexican ancestry in Los Angeles, California MKK - Maasai in Kinyawa, Kenya TSI - Toscani in Italia YRI - Yoruba in Ibadan, Nigeria</p>
-</blockquote>
+<pre><code>ASW - African ancestry in Southwest USA
+CEU - Utah residents with Northern and Western European ancestry from the CEPH collection
+CHB - Han Chinese in Beijing, China
+CHD - Chinese in Metropolitan Denver, Colorado
+GIH - Gujarati Indians in Houston, Texas
+JPT - Japanese in Tokyo, Japan
+LWK - Luhya in Webuye, Kenya
+MXL - Mexican ancestry in Los Angeles, California
+MKK - Maasai in Kinyawa, Kenya
+TSI - Toscani in Italia
+YRI - Yoruba in Ibadan, Nigeria</code></pre>
 <p>We can try to identify clusters by eye by plotting the principal components against each other. We will use the <code>ggplot2</code> library to plot these data</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
 <span class="kw">ggplot</span>(popstrat, <span class="kw">aes</span>(<span class="dt">x=</span>PC1, <span class="dt">y=</span>PC2)) +<span class="st"> </span>
@@ -305,6 +313,40 @@ id9 id9 0 0 1 -9 T T C A A C C C C C G G</code></pre>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(popstrat, <span class="kw">aes</span>(<span class="dt">x=</span>PC1, <span class="dt">y=</span>PC2)) +<span class="st"> </span>
 <span class="st">    </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">colour=</span>population==<span class="st">&quot;Our data&quot;</span>, 
                    <span class="dt">alpha=</span>population==<span class="st">&quot;Our data&quot;</span>))</code></pre>
+</div>
+<div id="questions" class="section level2">
+<h2>Questions</h2>
+<p>A large component of genetic analysis is about data manipulation. For the following questions, use the plink documentation:</p>
+<p><a href="https://www.cog-genomics.org/plink2/"><a href="https://www.cog-genomics.org/plink2/" class="uri">https://www.cog-genomics.org/plink2/</a></a></p>
+<p>to find commands that will perform the required actions.</p>
+<ol style="list-style-type: decimal">
+<li>Extract the data for a SNP called “rs10275469” from the <code>geno_qc</code> data. Save this new data under the name <code>rs10275469_extract</code>. What chromosome is it on?</li>
+<li>Convert the extracted SNP into a human readable format. Can you convert it to “GG/GT/TT” format? Can you convert it to “0/1/2” format?</li>
+<li><p>Extract the following list of SNPs</p>
+<pre><code>rs11689608
+rs3764866
+rs10787538
+rs2211129
+rs564499
+rs2735614
+rs10920155
+rs1972435
+rs4077806
+rs10495739</code></pre>
+<p>and the following list of individuals</p>
+<pre><code>id835
+id36
+id2239
+id1947
+id4579
+id7412
+id7963
+id8188
+id976
+id1525</code></pre>
+<p>into a new file called <code>second_extract</code>.</p></li>
+<li><p>Can you merge the <code>rs10275469_extract</code> data and the <code>second_extract</code> data into a single file?</p></li>
+</ol>
 </div>
 
 

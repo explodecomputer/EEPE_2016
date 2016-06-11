@@ -14,7 +14,7 @@ This practical shows you how to perform various whole genome analyses using GCTA
 
 ## Background
 
-The use of very simple, single SNP approaches have  been very successful in genetic studies. However, with the introduction of whole genome methods the scope of what we might be able to learn from genetic data has broadened significantly. Here we'll look at some of the fundamentals.
+The use of very simple, single SNP approaches have been very successful in genetic studies. However, with the introduction of whole genome methods the scope of what we might be able to learn from genetic data has broadened significantly. Here we'll look at some of the fundamentals.
 
 The purpose of GWAS is to identify particular SNPs that we are certain have an influence on a trait. In contrast, the purpose of a GCTA style 'GREML' (Genetic REML) or 'SNP heritability' analysis is to estimate how much of the variance of the phenotype can be explained by all the measured SNPs in our data.
 
@@ -26,7 +26,9 @@ The SNP heritability is estimated using a two step procedure. First a genetic co
 The original implementation for large scale human data is [GCTA](http://cnsgenomics.com/software/gcta/index.html). It is continually improving, and it has a huge number of features. We will use this to perform REML estimation of heritabilities. It also constructs genetic relationship matrices, which is something that we need, but we will use [Plink2](https://www.cog-genomics.org/plink2/) to do this, as it does the same implementation but much faster.
 
 > GREML analysis can be performed using GCTA. Earlier versions of GCTA were available for Mac, Windows and Linux, but for some time now the updated versions of GCTA have only been made for Linux.
+> 
 > A major change is in the format - previously the GRM was stored in a text format, but now it is stored in a much more efficient binary format. 
+> 
 > If you are using Windows or Mac then you will have to use the text format, which can be quite slow. To compensate, we will only perform the analysis on the first 4000 individuals
 
 
@@ -192,7 +194,7 @@ n       16464
 
 The genetic correlation is denoted by `rG`, note that the standard error is higher than in the univariate analyses - the power of a bivariate analysis is lower than.
 
-> What does is the biological interpretation of a genetic correlation existing between two traits?
+> What is the biological interpretation of a genetic correlation existing between two traits?
 
 
 ## Polygenic architecture

@@ -2,7 +2,8 @@
 # title: "Genetic data"	
 # author: Gibran Hemani	
 # output: 	
-#   pdf_document:	
+#   html_document:	
+#     theme: united	
 #     highlight: tango	
 # ---	
 	
@@ -39,19 +40,19 @@ options(width=85)
 	
 # Navigate to the `data/genetic` directory 	
 	
-# ```	
-# cd data/genetic	
+# ```bash	
+# cd ../data/genetic	
 # ```	
 	
 # Look at the files there	
 	
-# ```	
+# ```bash	
 # ls -lh	
 # ```	
 	
 # Look at the `geno_unclean.fam` file	
 	
-# ```	
+# ```bash	
 # less geno_unclean.fam	
 # ```	
 	
@@ -78,14 +79,14 @@ options(width=85)
 	
 # The number of lines represents the number of individuals in the data	
 	
-# ```	
+# ```bash	
 # wc -l geno_unclean.fam	
 # ```	
 	
 	
 # Look at the `geno_unclean.bim` file	
 	
-# ```	
+# ```bash	
 # less geno_unclean.bim	
 # ```	
 	
@@ -113,20 +114,20 @@ options(width=85)
 	
 # The number of lines represents the number of SNPs in the data	
 	
-# ```	
+# ```bash	
 # wc -l geno_unclean.bim	
 # ```	
 	
 # How many chromosomes are there? How many SNPs are on each chromosome?	
 	
-# ```	
+# ```bash	
 # cut -f 1 geno_unclean.bim | uniq -c	
 # ```	
 	
 	
 # The `geno_unclean.bed` file is much larger - it contains the compressed matrix of genotypes for each individual at each SNP. It is not human readable, but you can look at a small section by extracting it to a human readable format using plink:	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile geno_unclean \	
 # --chr 22 \	
@@ -144,7 +145,7 @@ options(width=85)
 	
 # Now have a look at the created files	
 	
-# ```	
+# ```bash	
 # less -S geno_unclean_chr22.ped	
 # ```	
 	
@@ -159,13 +160,15 @@ options(width=85)
 # id8 id8 0 0 1 -9 G G C C C C C C C C G G	
 # id9 id9 0 0 1 -9 T T C A A C C C C C G G	
 # ```	
+	
 # Each SNP is now represented by two columns - one column for each allele.	
+	
 	
 # ## Calculating allele frequencies	
 	
 # The easiest way to calculate the allele frequency of each SNP is to use plink	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile geno_unclean \	
 # --freq \	
@@ -174,7 +177,7 @@ options(width=85)
 	
 # This produces a file called `geno_unclean.frq`	
 	
-# ```	
+# ```bash	
 # less geno_unclean.frq	
 # ```	
 	
@@ -239,7 +242,7 @@ table(frq$MAF < 0.01)
 	
 # We can do all of this in plink like so:	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile geno_unclean \	
 # --maf 0.01 \	
@@ -260,7 +263,7 @@ table(frq$MAF < 0.01)
 	
 # Note that the log from plink records what has been done:	
 	
-# ```	
+# ```bash	
 # less geno_qc.log	
 # ```	
 	
@@ -271,7 +274,7 @@ table(frq$MAF < 0.01)
 	
 # If there is a pair of individuals in the dataset who are related (e.g. cousins, siblings, duplicate samples etc) then we will want to discard one of the pair, so that the final dataset is comprised entirely of unrelated individuals. We will look at how this is done later on, but plink can do this as follows:	
 	
-# ```	
+# ```bash	
 # ../../software/plink_mac \	
 # --bfile geno_qc \	
 # --rel-cutoff 0.025 \	
@@ -293,7 +296,7 @@ table(frq$MAF < 0.01)
 	
 # This can be done as follows (no need to run this - the PCs have already been created)	
 	
-# ```	
+# ```bash	
 # # pairwise LD pruning	
 # ../../software/plink_mac \	
 # --bfile data \	
@@ -374,4 +377,50 @@ ggplot(popstrat, aes(x=PC1, y=PC2)) +
 ggplot(popstrat, aes(x=PC1, y=PC2)) + 	
 	geom_point(aes(colour=population=="Our data", 	
 		           alpha=population=="Our data"))	
+	
+	
+	
+# ## Questions	
+	
+# A large component of genetic analysis is about data manipulation. For the following questions, use the plink documentation:	
+	
+# [https://www.cog-genomics.org/plink2/](https://www.cog-genomics.org/plink2/)	
+	
+# to find commands that will perform the required actions.	
+	
+# 1. Extract the data for a SNP called "rs10275469" from the `geno_qc` data. Save this new data under the name `rs10275469_extract`. What chromosome is it on?	
+# 2. Convert the extracted SNP into a human readable format. Can you convert it to "GG/GT/TT" format? Can you convert it to "0/1/2" format?	
+# 3. Extract the following list of SNPs	
+#     	
+#     ```	
+#     rs11689608	
+#     rs3764866	
+#     rs10787538	
+#     rs2211129	
+#     rs564499	
+#     rs2735614	
+#     rs10920155	
+#     rs1972435	
+#     rs4077806	
+#     rs10495739	
+#     ```	
+	
+#     and the following list of individuals	
+	
+#     ```	
+#     id835	
+#     id36	
+#     id2239	
+#     id1947	
+#     id4579	
+#     id7412	
+#     id7963	
+#     id8188	
+#     id976	
+#     id1525	
+#     ```	
+	
+#     into a new file called `second_extract`.	
+	
+# 4. Can you merge the `rs10275469_extract` data and the `second_extract` data into a single file?	
 	

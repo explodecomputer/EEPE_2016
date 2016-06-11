@@ -41,7 +41,7 @@ A binary plink dataset comprises three files:
 Navigate to the `data/genetic` directory 
 
 ```bash
-cd data/genetic
+cd ../data/genetic
 ```
 
 Look at the files there
@@ -160,7 +160,9 @@ id7 id7 0 0 2 -9 G T C A C C T C T C G G
 id8 id8 0 0 1 -9 G G C C C C C C C C G G
 id9 id9 0 0 1 -9 T T C A A C C C C C G G
 ```
+
 Each SNP is now represented by two columns - one column for each allele.
+
 
 ## Calculating allele frequencies
 
@@ -349,17 +351,19 @@ table(popstrat$population)
 
 Our data is there, along with a number of other samples with the following population codes:
 
-> ASW - African ancestry in Southwest USA
-> CEU - Utah residents with Northern and Western European ancestry from the CEPH collection
-> CHB - Han Chinese in Beijing, China
-> CHD - Chinese in Metropolitan Denver, Colorado
-> GIH - Gujarati Indians in Houston, Texas
-> JPT - Japanese in Tokyo, Japan
-> LWK - Luhya in Webuye, Kenya
-> MXL - Mexican ancestry in Los Angeles, California
-> MKK - Maasai in Kinyawa, Kenya
-> TSI - Toscani in Italia
-> YRI - Yoruba in Ibadan, Nigeria
+```
+ASW - African ancestry in Southwest USA
+CEU - Utah residents with Northern and Western European ancestry from the CEPH collection
+CHB - Han Chinese in Beijing, China
+CHD - Chinese in Metropolitan Denver, Colorado
+GIH - Gujarati Indians in Houston, Texas
+JPT - Japanese in Tokyo, Japan
+LWK - Luhya in Webuye, Kenya
+MXL - Mexican ancestry in Los Angeles, California
+MKK - Maasai in Kinyawa, Kenya
+TSI - Toscani in Italia
+YRI - Yoruba in Ibadan, Nigeria
+```
 
 We can try to identify clusters by eye by plotting the principal components against each other. We will use the `ggplot2` library to plot these data
 
@@ -376,3 +380,49 @@ ggplot(popstrat, aes(x=PC1, y=PC2)) +
 	geom_point(aes(colour=population=="Our data", 
 		           alpha=population=="Our data"))
 ```
+
+
+## Questions
+
+A large component of genetic analysis is about data manipulation. For the following questions, use the plink documentation:
+
+[https://www.cog-genomics.org/plink2/](https://www.cog-genomics.org/plink2/)
+
+to find commands that will perform the required actions.
+
+1. Extract the data for a SNP called "rs10275469" from the `geno_qc` data. Save this new data under the name `rs10275469_extract`. What chromosome is it on?
+2. Convert the extracted SNP into a human readable format. Can you convert it to "GG/GT/TT" format? Can you convert it to "0/1/2" format?
+3. Extract the following list of SNPs
+    
+    ```
+    rs11689608
+    rs3764866
+    rs10787538
+    rs2211129
+    rs564499
+    rs2735614
+    rs10920155
+    rs1972435
+    rs4077806
+    rs10495739
+    ```
+
+    and the following list of individuals
+
+    ```
+    id835
+    id36
+    id2239
+    id1947
+    id4579
+    id7412
+    id7963
+    id8188
+    id976
+    id1525
+    ```
+
+    into a new file called `second_extract`.
+
+4. Can you merge the `rs10275469_extract` data and the `second_extract` data into a single file?
+
