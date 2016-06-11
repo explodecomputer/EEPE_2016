@@ -1,0 +1,48 @@
+---
+title: "EEPE 2016: Genetics practicals"
+author: Gibran Hemani
+output: 
+  html_document:
+    theme: united
+    highlight: tango
+---
+
+Here you can find links to the data and the slides, as well as the worksheets for the practicals.
+
+
+## Lecture slides
+
+The lecture slides are hosted on Google Drive at this location:
+
+[EEPE 2016 Genetics slides](https://drive.google.com/folderview?id=0B0vAR1k68I5fNWx0c0JWUzQ5eEk&usp=sharing)
+
+
+## Data download
+
+The data is hosted here:
+
+[EEPE 2016 data for practicals]()
+
+
+## Worksheets for practicals
+
+Links to the practicals are below:
+
+**Introduction to R** [mac](worksheets_mac/intro_to_r.html) or [win](worksheets_win/intro_to_r.html)
+
+**Genetic data** [mac](worksheets_mac/genetic_data.html) or [win](worksheets_win/genetic_data.html)
+
+**Genome wide association studies** [mac](worksheets_mac/gwas.html) or [win](worksheets_win/gwas.html)
+
+**Bioinformatics** [mac](worksheets_mac/bioinformatics.html) or [win](worksheets_win/bioinformatics.html)
+
+**Whole genomes** [mac](worksheets_mac/whole_genomes.html) or [win](worksheets_win/whole_genomes.html)
+
+**Epigenome wide association studies** [mac](worksheets_mac/ewas.html) or [win](worksheets_win/ewas.html)
+
+
+## Source code
+
+You can find the source code for all the material here:
+
+[https://github.com/explodecomputer/EEPE_2016](https://github.com/explodecomputer/EEPE_2016/tree/gh-pages)
