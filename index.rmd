@@ -34,6 +34,7 @@ The data is hosted here:
 Links to the practicals are below:
 
 - *Introduction to R* [ [mac](worksheets_mac/intro_to_r.html) or [win](worksheets_win/intro_to_r.html) ]
+- *Basic stats in R* [ [mac](worksheets_mac/basic_stats.html) or [win](worksheets_win/basic_stats.html) ]
 - *Genetic data* [ [mac](worksheets_mac/genetic_data.html) or [win](worksheets_win/genetic_data.html) ]
 - *Genome wide association studies* [ [mac](worksheets_mac/gwas.html) or [win](worksheets_win/gwas.html) ]
 - *Bioinformatics* [ [mac](worksheets_mac/bioinformatics.html) or [win](worksheets_win/bioinformatics.html) ]
